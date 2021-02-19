@@ -68,9 +68,9 @@ To find out more about the dataset, type the following in your Console: `?datasa
 
 Based on the help file, how many rows and how many columns does the `datasaurus_dozen` file have? What are the variables included in the data frame? After you've added your response below, commit your changes with the commit message "Added answer for Ex 1", and push.
 
-> RESPONSE:
+> RESPONSE: According to the help file, the file has 1846 rows and 3 variables indicating that there are 3 columns.
 
-According to the help file, the file has 1846 rows and 3 variables indicating that there are 3 columns.
+
 
 Let's take a look at what these datasets are. To do so we can make a *frequency table* of the dataset variable:
 
@@ -88,7 +88,7 @@ datasaurus_dozen %>%
 
 Calculate the correlation coefficient between `x` and `y` for the `dino` dataset.  Below is the code you will need to complete this exercise. Basically, the answer is already given, but you need to include relevant bits in your Rmd document and successfully knit it and view the results.  What does this correlation coefficient imply about the relationship between `x` and `y` in the `dino` dataset? 
 
-> RESPONSE: 
+> RESPONSE: This correlatoin coefficient implies that there is a weak, negative linear relationshup between x and y in the dino dataset.
  
 ```{r}
 # Start with the `datasaurus_dozen` and pipe it into the `filter` function to filter for observations where `dataset == "dino"`. Store the resulting filtered data frame as a new data frame called `dino_data`.
@@ -107,7 +107,7 @@ If this seems like a lot, don't worry.  You will learn about the philosophy of b
 
 What do you notice now about the relationship between x and y?
 
-> RESPONSE:
+> RESPONSE: There seems to be a realtionship between x and y in that they make a picture of a dinosaur which is not captured in the correlation coefficient as it is not a linear relationship.
 
 ```{r fig.fullwidth=TRUE}
 ggplot(data = dino_data, mapping = aes(x = x, y = y)) +
@@ -121,18 +121,24 @@ ggplot(data = dino_data, mapping = aes(x = x, y = y)) +
 
 Calculate the correlation coefficient between `x` vs. `y` for the `star` dataset. You can (and should) reuse code we introduced above, just replace the dataset name with the desired dataset. How does this value compare to the correlation coefficient from the `dino` dataset?
 
-> RESPONSE: 
+> RESPONSE: This value of -0.06296 is very similar to the correlation coefficient from our dino dataset, which is -0.06447, indicating that both have a weak negative linear relationship.
 
 ```{r}
+star_data <- datasaurus_dozen %>%
+  filter(dataset == "star")
+
+star_data %>%
+  summarize(r = cor(x, y))
 
 ```
 
 Then, plot `y` versus `x` for the `star` dataset.  Does the plot look the same as the plot of the `dino` data?
 
-> RESPONSE:
+> RESPONSE: Though the correlation coefficients were similar between the two data sets, the plots look very different. This second plot outlines a star as opposed to the dionsaur from the first plot. 
 
 ```{r}
-
+ggplot(data = star_data, mapping = aes(x = x, y = y)) +
+  geom_point()
 ```
 
 
