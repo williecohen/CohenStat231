@@ -10,7 +10,7 @@ output:
 
 This problem set is a modified version of a lab developed by Mine Cetinkaya-Rundel.
 
-123 123
+
 
 The main goal of this lab is to introduce you to working with R and RStudio in conjunction with git and GitHub, all of which we will be using throughout the course.  
 
