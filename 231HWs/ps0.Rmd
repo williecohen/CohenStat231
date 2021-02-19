@@ -149,18 +149,24 @@ ggplot(data = star_data, mapping = aes(x = x, y = y)) +
 
 Calculate the correlation coefficient between `x` vs. `y` for the `circle` dataset. You can (and should) reuse code we introduced above, just replace the dataset name with the desired dataset. How does this value compare to the correlation coefficients from the other two datasets?
 
-> RESPONSE: 
+> RESPONSE: Again, we see a similar weak negative linear relationship evidenced in the correlation coefficient of -0.06834, closely resembling both the star and dino datasets. 
 
 ```{r}
+circle_data <- datasaurus_dozen %>%
+  filter(dataset == "circle")
+
+circle_data %>%
+  summarize(r = cor(x, y))
 
 ```
 
 Then, plot `y` versus `x` for the `circle` dataset.  Does the plot look the same as either plot from the other two datasets?
 
-> RESPONSE:
+> RESPONSE: This plot looks different from the other 2 data sets in that it looks like an oval or circle compared to the dinosaur and star from the previous two, again showing that similarities in linear correlation do not indicate similarities in the data we examine across different datasets. 
 
 ```{r}
-
+ggplot(data = circle_data, mapping = aes(x = x, y = y)) +
+  geom_point()
 ```
 
 *You should pause again, commit changes with the commit message "Added answer for Ex 4", and push.*
@@ -189,8 +195,7 @@ datasaurus_dozen %>%
 
 What do you notice?  Is the correlation coefficiant an appropriate summary for any of these datasets?  Why or why not?
 
-> RESPONSE:
-
+> RESPONSE: Since the correlation coefficient denotes the strength of the linear relationship between the x and y variables, it isn't an appropriate summary for these data sets. So while all of the correlation coefficients are rather low, this does not necessarily indicate a lack of realtionship between the two variables, as clearly through the pictures there exists some sort of relationship in each data set. 
 
 
 *You should pause again, commit changes with the commit message "Added answer for Ex 5", and push.*
