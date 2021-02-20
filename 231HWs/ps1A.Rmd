@@ -32,6 +32,7 @@ Steps to proceed:
 # Load packages here 
 library(mdsr)   
 library(ggplot2)
+library(dplyr)
 knitr::opts_chunk$set(
   tidy=FALSE,     # display code as typed
   size="small",   # slightly smaller font for code
@@ -89,7 +90,7 @@ g4 + geom_text(aes(label = country, color = net_users, size = 3)) + theme(legend
 ### a.
 Consider Figure 3.7 in Section 3.2.1.  What does `reorder(drg, mean_charge)` do?  Recreate the plot, but use `x = drg` instead of `x = reorder(drg, mean_charge)`.  What happens?
 
-> ANSWER: 
+> ANSWER: The reorder function sorts the medical procedures, or DRG's, by their respective mean charge values from lowest to highest. Without the reordering, we don't see an increase in average mean charges moving from right to left on the plot as instead they are plotted on the x-axis based upon the numbering of the DRG in the dataset. 
 
 ```{r}
 data(MedicareCharges)
@@ -98,7 +99,7 @@ ChargesNJ <- MedicareCharges %>%
   filter(stateProvider == "NJ")
 
 # create the plot object
-p <- 
+p <- ggplot(data = ChargesNJ, aes(x = drg, y = mean_charge)) + geom_bar(fill = "gray", stat = "identity") + ylab("Statewide Average Charges ($)") + xlab("Medical Procedure (DRG)") + theme(axis.text.x = element_text(angle = 90, hjust = 1))
   
   
 # print the plot
