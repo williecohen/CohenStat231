@@ -1,6 +1,6 @@
 ---
 title: 'STAT 231: Problem Set 1A'
-author: "YOUR NAME HERE"
+author: "Willie Cohen"
 date: "due by 5 PM on Monday, February 22"
 output: pdf_document
 ---
