@@ -33,6 +33,7 @@ Steps to proceed:
 library(mdsr)   
 library(ggplot2)
 library(dplyr)
+library(Hmisc)
 knitr::opts_chunk$set(
   tidy=FALSE,     # display code as typed
   size="small",   # slightly smaller font for code
@@ -59,7 +60,8 @@ g + geom_text(aes(label = country, color = net_users, size = 3))
 Now, update the plot with more informative labels.  Label the x-axis "% of GDP spent on education" and the y-axis "Gross Domestic Product (GDP)".  Hint: see Section 3.2.2 for an example of one way to label the axes.
 
 ```{r}
-g2 <- ggplot(data = CIACountries, aes(y = gdp, x = educ)) + xlab("% of GDP Spent on Education") + ylab("Gross Domestic Product (GDP)")
+g2 <- ggplot(data = CIACountries, aes(y = gdp, x = educ)) + xlab("% of GDP Spent on Education") + 
+  ylab("Gross Domestic Product (GDP)")
 
 g2 + geom_text(aes(label = country, color = net_users, size = 3))
 ```
@@ -68,9 +70,11 @@ g2 + geom_text(aes(label = country, color = net_users, size = 3))
 Next, move the legend so that it's located on the top of the plot as opposed to the right of the plot.  Hint: see Section 3.1.4 for an example on how to change the legend position.
 
 ```{r}
-g3 <- ggplot(data = CIACountries, aes(y = gdp, x = educ)) + xlab("% of GDP Spent on Education") + ylab("Gross Domestic Product (GDP)")
+g3 <- ggplot(data = CIACountries, aes(y = gdp, x = educ)) + xlab("% of GDP Spent on Education") + 
+  ylab("Gross Domestic Product (GDP)")
 
-g3 + geom_text(aes(label = country, color = net_users, size = 3)) + theme(legend.position = "top")
+g3 + geom_text(aes(label = country, color = net_users, size = 3)) + 
+  theme(legend.position = "top")
 
 ```
 
@@ -78,9 +82,11 @@ g3 + geom_text(aes(label = country, color = net_users, size = 3)) + theme(legend
 Lastly, Section 3.1.2 discusses *scale*, and demonstrates how to display GDP on a logarithmic scale to better discern differences in GDP.  Update the figure so GDP is on a log10 scale.  
 
 ```{r}
-g4 <- ggplot(data = CIACountries, aes(y = gdp, x = educ)) + xlab("% of GDP Spent on Education") + ylab("Gross Domestic Product (GDP)")
+g4 <- ggplot(data = CIACountries, aes(y = gdp, x = educ)) + 
+  xlab("% of GDP Spent on Education") + ylab("Gross Domestic Product (GDP)")
 
-g4 + geom_text(aes(label = country, color = net_users, size = 3)) + theme(legend.position = "top") + coord_trans(y = "log10")
+g4 + geom_text(aes(label = country, color = net_users, size = 3)) + theme(legend.position = "top") + 
+  coord_trans(y = "log10")
 ```
 
 
@@ -99,7 +105,10 @@ ChargesNJ <- MedicareCharges %>%
   filter(stateProvider == "NJ")
 
 # create the plot object
-p <- ggplot(data = ChargesNJ, aes(x = drg, y = mean_charge)) + geom_bar(fill = "gray", stat = "identity") + ylab("Statewide Average Charges ($)") + xlab("Medical Procedure (DRG)") + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+p <- ggplot(data = ChargesNJ, aes(x = drg, y = mean_charge)) + 
+  geom_bar(fill = "gray", stat = "identity") + 
+  ylab("Statewide Average Charges ($)") + 
+  xlab("Medical Procedure (DRG)") + theme(axis.text.x = element_text(angle = 90, hjust = 1))
   
   
 # print the plot
@@ -109,10 +118,17 @@ p
 ### b.
 Replace `x = drg` with `x = reorder(drg, mean_charge)`, but also remove the `theme()` line.  Now what happens?  What was the purpose of the `theme()` line?  Hint: You may need to knit the document and look at the pdf to better observe what's happening.
 
-> ANSWER:  
+> ANSWER: Each of the medical procedures has a corresponding number to denote it which are the points on the x-axis in both plots. Using the theme line, we are rotating these numbers 90 degrees so that they no longer overlap with one another. In the second plot, because the default presentation is to have them written horizontally, we see that which DRG matches up with which bar is almost undiscernable. So, the theme code helps to solve this problem.  
 
 ```{r}
-
+p <- ggplot(data = ChargesNJ, aes(x = reorder(drg, mean_charge), y = mean_charge)) + 
+  geom_bar(fill = "gray", stat = "identity") + 
+  ylab("Statewide Average Charges ($)") + 
+  xlab("Medical Procedure (DRG)") 
+  
+  
+# print the plot
+p
 ```
 
 
@@ -122,6 +138,11 @@ Replace `x = drg` with `x = reorder(drg, mean_charge)`, but also remove the `the
 As you read through (and, better yet -- code along with (not required, but useful practice!)) -- the extended example on historical baby names in section 3.3.1, write down two questions you have about any of the R code used in that example.  (Your questions could be about what a specific part of the code -- ggplot or not -- is actually doing, or a more general question about any of the commands used.)  Please be thoughtful about your questions; we will use them (anonymously) in an exercise in class this week.
 
 > ANSWER: 
+
+>1) I couldn't quite understand how to make work the "/n" convention used defining the textboxes on the graph. I am assuming they have to do with formatting of the text but was wondering how exactly they work? Also, are they a function of a package that needs to be installed or was I just using them incorrectly in my code?
+
+>2) Is is often useful to define a plot as we did with the first example and then use the "%+% operator to use it later on down the line? Is this operator useful with other objects we might come across in the class (not really sure what those would be besides plots)?
+
 
 ```{r}
 # to get you started following along . . .
@@ -133,9 +154,24 @@ joseph <- BabynamesDist %>%
 
 name_plot <- ggplot(data = joseph, aes(x = year)) +
   geom_bar(stat = "identity", aes(y = count_thousands*alive_prob)
-           , fill = "#b2d7e9", color = "white")
+           , fill = "#b2d7e9", color = "white") + 
+  ylab("Number of People (Thousands)") + geom_line(aes(y = count_thousands), size = 1)
 
-name_plot
+
+median <- with(joseph, wtd.quantile(year, est_alive_today, probs = 0.5))
+
+name_plot <- name_plot + geom_bar(stat = "identity", colour = "white", fill = "#008fd5", 
+                                  aes(y = ifelse(year == median, est_alive_today / 1000, 0)))
+
+name_plot  + ggtitle("Age Distribution of American Boys Named Joseph") + 
+  geom_text(x = 1935, y = 40, label = "Josephs born each year") + 
+  geom_text(x = 1915, y = 13, label = "Josephs estimated to be alive in 2014", color = "darkgray") + 
+  geom_text(x = 2003, y = 40, label = "The median living Josephis 37", color = "darkgray") +
+  geom_curve(x = 1995, xend = 1974, y = 40, yend = 24, 
+             arrow = arrow(length = unit(0.3, "cm")), curvature = 0.5) + ylim(0, 42) + xlab(NULL)
+
+name_plot %+% filter(BabynamesDist, name == "Josephine" & sex == "F")
+
 ```
 
 
