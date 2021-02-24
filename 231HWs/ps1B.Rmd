@@ -84,9 +84,15 @@ ggplot(data = mpg, aes(x = displ, y = hwy)) + geom_point(color = "blue")
 
 Use the `MLB_teams` data in the `mdsr` package to create an informative data graphic that illustrates the relationship between winning percentage and payroll in context. What story does your graph tell?
 
-> ANSWER:
+> ANSWER: In order to best illustrate the desired relationship between winning percentage and payroll in context, I defined an overall plot with all teams winning percentages and payrolls (meaning all teams will be listed once for each year) across all years of the data set as well as faceted plots for winning percentages and payroll on a year by year basis. I colored each point based upon what league, either AL or NL, the team plays in as differences between the two leagues are often important when considering league-wide metrics or statsitcs. My graphic shows a moderate postive relationship is visible between payroll and winning percentage which does not vary much by league. Further, I think my data may illustrate possible diminishing marginal returns to payroll when it comes to regualr season winning percentage, something visible in both the main and faceted plots. The highest spending teams tended to be among the winningest in most years, but those winning percentages were almost always matched or surpassed by at least one lower spending team in each season, seen in the faceted plots. These lower spending teams tended to be in the middle of the pack among spending, which again indicates that there is some positive correlation. Then, in viewing the main plot, we see there is almost an even split between the winningest teams across the data set from highest speding and moderate spending teams, with lower spending teams more often ending up at the bottom. 
 
 ```{r}
+g <-ggplot(data = MLB_teams, aes(x = payroll, y = WPct, color = lgID)) + 
+  xlab("Payroll ($)") + ylab("Winning Percentage") +
+  ggtitle("Relationship Between Team Payroll and Regular Season Winning Percentage \n2008-2014") 
+  
+g + geom_smooth(se = FALSE) + geom_point()
+g + facet_wrap(~yearID) + geom_point()
 
 ```
 
@@ -114,6 +120,6 @@ For the calendar assignment:
 
 Note that you are not wed to the ideas you record here.  The visualizations and table can change before your final submission.  But, I want to make sure your plan aligns with your questions and that you're on the right track.
 
-> ANSWER:
+> ANSWER: 
 
  
