@@ -111,7 +111,7 @@ g <-ggplot(data = storms, aes(x=long, y = lat, color = name)) + geom_path() +
   scale_color_discrete(guide = "none")
 g + facet_wrap(~year) +
   xlab("Longitude") + ylab("Latitude") + 
-  ggtitle("Path of Tropical Storms by Year (1995-2000)")
+  ggtitle("Path of Tropical Storms by Year (1975-2015)")
 ```
 
 
