@@ -25,6 +25,9 @@ Steps to proceed:
 # Load packages here 
 library(mdsr)   
 library(tidyverse)
+install.packages("nasaweather")
+library(nasaweather)
+
 
 knitr::opts_chunk$set(
   tidy=FALSE,     # display code as typed
@@ -105,7 +108,11 @@ Using data from the `nasaweather` package, use the `geom_path()` function to plo
 Note: be sure you load the `nasaweather` package and use the `storms` dataset from that package!
 
 ```{r}
-
+g <-ggplot(data = storms, aes(x=long, y = lat, color = name)) + geom_path() + 
+  scale_color_discrete(guide = "none")
+g + facet_wrap(~year) +
+  xlab("Longitude") + ylab("Latitude") + 
+  ggtitle("Path of Tropical Storms by Year (1995-2000)")
 ```
 
 
@@ -120,6 +127,16 @@ For the calendar assignment:
 
 Note that you are not wed to the ideas you record here.  The visualizations and table can change before your final submission.  But, I want to make sure your plan aligns with your questions and that you're on the right track.
 
-> ANSWER: 
+> ANSWER: Some questions I would like to focus on are as follows:
+
+> 1) What time do I start (school) work each day and what time do I finish (school) work at night?
+> 2) How much time do I sleep and how does it vary throughout the days of the week (also when do I go to sleep/wake up)?
+> 3) How many hours a day do I spend in my room/outside/in other buildings on campus
+
+> GRAPHICS: For the second question, regarding time slept, I could created a faceted line graph/time series by week with an accompanying bar graph to show average hours slept by day of the week.
+> For the third question I could try to build a sort of geographical plot (like ones we've seen with maps of the US) but with a map of the Amherst campus and then color the buildings I spend my time in accordingly.
+
+> For the table I could track what time I start working on schoolwork and what time I finish working on it each night. So, the rows would be dates, and the columns would be time started, time finished, and time worked. 
+
 
  
