@@ -25,7 +25,6 @@ Steps to proceed:
 # Load packages here 
 library(mdsr)   
 library(tidyverse)
-install.packages("nasaweather")
 library(nasaweather)
 
 
@@ -70,7 +69,7 @@ c. Critique and/or praise the visualization choices made by the designer.  Do th
 
 Explain why the following command does not color the data points blue, then write down the command that will turn the points blue.
 
-> ANSWER: In the original command we are defining our plot object with geom_point, so when we are trying to set the color it is being set relative to each of the points value for the "blue" variable which is not a part of the set. Then, since all of the values for each data point under our imaginary "blue" are identical (as they do not exist) it sets each point to the same default color as it would if we were coloring based upon the values of a categorical variable. In fact, you could write any word in the parentheses containing "blue" and we would see the exact same plot with the red colored points.  In the correct plot, we define our plot under the main ggplot function, which then allows us to custmoize the color of the points specifically using the geom_point function.
+> ANSWER: In the original command we are defining our plot object with geom_point, so when we are trying to set the color it is being set baed upon each of the data points value for the "blue" variable which is not a part of the dataset. Then, since all of the values for each data point under our imaginary "blue" are identical (as they do not exist) it sets each point to the same default color as it would if we were coloring based upon the values of a categorical variable. In fact, you could write any word in the parentheses containing "blue" and we would see the exact same plot with the red colored points.  In the correct plot, we define our plot under the main ggplot function, which then allows us to custmoize the color of the points specifically using the geom_point function.
 
 ```{r}
 library(ggplot2)
@@ -131,7 +130,7 @@ Note that you are not wed to the ideas you record here.  The visualizations and 
 
 > 1) What time do I start (school) work each day and what time do I finish (school) work at night?
 > 2) How much time do I sleep and how does it vary throughout the days of the week (also when do I go to sleep/wake up)?
-> 3) How many hours a day do I spend in my room/outside/in other buildings on campus
+> 3) How many hours a day do I spend in my room/outside/in other buildings on campus?
 
 > GRAPHICS: For the second question, regarding time slept, I could created a faceted line graph/time series by week with an accompanying bar graph to show average hours slept by day of the week.
 > For the third question I could try to build a sort of geographical plot (like ones we've seen with maps of the US) but with a map of the Amherst campus and then color the buildings I spend my time in accordingly.

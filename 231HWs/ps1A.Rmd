@@ -166,7 +166,7 @@ name_plot <- name_plot + geom_bar(stat = "identity", colour = "white", fill = "#
 name_plot  + ggtitle("Age Distribution of American Boys Named Joseph") + 
   geom_text(x = 1935, y = 40, label = "Josephs born each year") + 
   geom_text(x = 1915, y = 13, label = "Josephs estimated to be alive in 2014", color = "darkgray") + 
-  geom_text(x = 2003, y = 40, label = "The median living Josephis 37", color = "darkgray") +
+  geom_text(x = 2003, y = 40, label = "The median living Joseph is 37", color = "darkgray") +
   geom_curve(x = 1995, xend = 1974, y = 40, yend = 24, 
              arrow = arrow(length = unit(0.3, "cm")), curvature = 0.5) + ylim(0, 42) + xlab(NULL)
 
