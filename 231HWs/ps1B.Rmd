@@ -38,7 +38,7 @@ knitr::opts_chunk$set(
 
 # If you discussed this assignment with any of your peers, please list who here:
 
-> ANSWER:
+> ANSWER: Amaaya Smole
 
 
 
@@ -55,7 +55,7 @@ b. Can the data graphic be described in terms of the taxonomy presented in this 
 
 > ANSWER: The data graphic uses many visual cues including color to represent different majors as a categorical variable, area of the lines between the majors and the positions (i.e larger area meant more students went into that field), position in that majors that are more alike are closer to eachother and also positioned closer to the positions that they are more likely to go into (i.e biology and chemistry are adjacent and near the health and medicine field).
 
-> In terms of cooridnate systems, this one cannot really be defined with the books taxonomy, as though the data is presented in a circle there is not really a coordinate grid made up from this circle, it is just employed in order display all of the majors and job fields in one place.
+> In terms of cooridnate systems, this one cannot really be defined with the books taxonomy, as though the data is presented in a circle it is not exactly a polar coordinate system as there is not really a coordinate grid made up from this circle. The circle is just employed in order display all of the majors and job fields in one place. The position of the categories around the circles does seem to have some meaning, meaning the angle coordinate in a polar system would have some meaning, but again its not exactly a by-the-book example of a polar system as the radial coordinates don't have a real meaning. 
 
 > The figure uses a categorical scale, sorting the data points by majors and fields of work instead of numbers or time. 
 
@@ -107,11 +107,13 @@ Using data from the `nasaweather` package, use the `geom_path()` function to plo
 Note: be sure you load the `nasaweather` package and use the `storms` dataset from that package!
 
 ```{r}
-g <-ggplot(data = storms, aes(x=long, y = lat, color = name)) + geom_path() + 
+library(nasaweather)
+stormsdata <- nasaweather::storms
+g <-ggplot(data = stormsdata, aes(x=long, y = lat, color = name)) + geom_path() + 
   scale_color_discrete(guide = "none")
 g + facet_wrap(~year) +
   xlab("Longitude") + ylab("Latitude") + 
-  ggtitle("Path of Tropical Storms by Year (1975-2015)")
+  ggtitle("Path of Tropical Storms by Year (1995-2000)")
 ```
 
 
