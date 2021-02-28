@@ -141,7 +141,7 @@ BabyWide
 ### d.
 Lastly, use the `gather()` function (or the `pivot_longer()` function) to put the dataset back into narrow form.  Call this dataset `BabyNarrow2`.  Hint: see Section 5.2.3.  Why are the number of observations in `BabyNarrow2` different from that in `BabyNarrow`?
 
-> ANSWER: There are 
+> ANSWER: In our original BabyNarrow dataset, names which have no females or no males are omitted entirely, meaning that there is not a separate female and male listing for names that have no value for that sex. However, when we gather the BabyWide data back into BabyNarrow2, each of these names which had a zero for either M or F is assigned a completely new row. Thus, our observations for BabyNarrow2 are double those for BabyWide as each of the rows in BabyWide now becomes 2 rows in BabyNarrow2. Thus, we have more rows in our table but we are still representing the same data as the each of the new rows added has a "total" value of 0. 
 
 ```{r}
 
