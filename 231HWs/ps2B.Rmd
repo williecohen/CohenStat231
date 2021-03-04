@@ -60,7 +60,7 @@ Pitching <- Pitching %>%
   arrange(desc(total_wins))
 
 Pitching <- Pitching %>%
-  filter(total_wins > 300, total_SO > 3000)
+  filter(total_wins > 299, total_SO > 2999)
 
 Pitching
 
@@ -78,8 +78,8 @@ Pitching2 <- Lahman::Pitching
 Pitching2 <- Pitching2 %>%
   group_by(playerID) %>% 
   summarize(total_wins = sum(W), total_SO = sum(SO), max_SO = max(SO)) %>%
-  arrange(desc(max_S)) %>%
-  filter(total_wins > 300, total_SO > 3000)
+  arrange(desc(max_SO)) %>%
+  filter(total_wins > 299, total_SO > 2999)
 
 Pitching2
 
@@ -91,7 +91,9 @@ Pitching2
 
 a. The Violations data set in the `mdsr` package contains information regarding the outcome of health inspections in New York City.  Use these data to calculate the median violation score by zipcode and dba for zipcodes in Manhattan.  What pattern (if any) do you see between the number of inspections and the median score?  Generate a visualization to support your response.  
 
-> ANSWER: There does not appear to be a clear linear relationship between number of inspections and the median score received by restaurants in these inspections. In the visual representation below, we see the majority of restaurants have relatively similar amounts of inspections (from 0 to around 100) and the majority of scores lie between 0 and 45.0. These individual median scores also do seem to resemble a sort of normal distribution (though the axes are flipped) centered around the score 15. It's important to note that though visually there may appear to be a slight right skew there are relatively few points past the score of 45 and thousands between the scores 0 and 45. 
+> ANSWER: There does not appear to be a clear linear relationship, maybe a slight negative correlation, between number of inspections and the median score received by restaurants in these inspections. 
+
+>In the visual representation, we see the majority of restaurants have relatively similar amounts of inspections (from 0 to around 100) and the majority of scores lie between 0 and 45.0. These individual median scores also do seem to resemble a sort of normal distribution (though the axes are flipped) centered around the score 15. It's important to note that though visually there may appear to be a slight right skew there are relatively few points past the score of 45 and thousands between the scores 0 and 45. 
 
 ```{r}
 Violations<- mdsr::Violations
@@ -138,9 +140,9 @@ dbaScore <- dbaScore %>%
 dbaScore
 
 g <- g +
-      geom_curve(x = 1500, xend = 1840, y = 25, yend = 12, 
-             arrow = arrow(length = unit(0.3, "cm")), curvature = 0.5) + 
-      geom_text(x = 1500, y = 35, label = "This is Subway\n(median score = 15)")
+      geom_curve(x = 1500, xend = 1840, y = 25, yend = 14, 
+             arrow = arrow(length = unit(0.3, "cm")), curvature = -0.4, color = "black") + 
+      geom_text(x = 1500, y = 35, label = "This is Subway\n(median score = 15)",color = "black")
       
 g
 
@@ -161,9 +163,22 @@ FakeDataLong <- data.frame(grp = c("A","A","B", "B")
                            , sdL = c(0.11, 0.33, 0.11, 0.31)
                            , meanR = c(0.34, 0.57, 0.40, 0.65)
                            , sdR = c(0.08, 0.33, 0.07, 0.27))
-
+FakeDataLong 
 ```
 
+```{r}
+
+FakeDataWide <- FakeDataLong %>%
+  gather(key = measure, value = value, meanL, sdL, meanR, sdR) %>%
+  mutate(measure2 = paste(as.character(sex), measure, sep = ".")) %>%
+  select(-c(sex, measure)) %>%
+  spread(key = measure2, value = value, fill = 0)
+  
+
+FakeDataWide
+
+
+```
 \newpage
 # PUG Brainstorming
 
