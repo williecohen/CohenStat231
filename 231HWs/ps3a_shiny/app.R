@@ -15,10 +15,9 @@ ui <- fluidPage(
     tabPanel(
       title = "Summary of Data",
       verbatimTextOutput("stats")
-    )
-    
-)
-    )
+    ) # closes tab panel
+) # closes navlist panel
+    ) # closes fluid page
 
 server <- function(input, output) {
   
