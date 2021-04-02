@@ -39,7 +39,7 @@ knitr::opts_chunk$set(
 \newpage 
 # If you discussed this assignment with any of your peers, please list who here:
 
-> ANSWER:
+> ANSWER: Amaya Smole
 
 \newpage
 # Trump Tweets
@@ -115,7 +115,7 @@ tweets2 <- tweets %>%
 
 *Don't forget to remove stop words before creating the word cloud.  Also remove the terms "https" and "t.co".*
 
-> ANSWER:  
+> ANSWER: The words clouds share some similarities in the most common words. For example, words like "Hillary", "Trump", and "America" can be seen in both word clouds. However, there are some differences in the sizes of these common words and thus their relative frequency in both the sources. Further, the iPhone word cloud has "makeamericagreatagain" as one of its most common words, whereas it is not visible at all in the Android word cloud. Also, the Android word cloud contains more frequent use of names like "Hillary", and "Cruz" as well as words like "Lyin" and "Crooked" which Trump used as nicknames for those people. In general, the Android word cloud has more names, which implies that Trump may have addressed his opponents more aggresively from that source, whereas in the iPhone word cloud we see more locations and campaign slogans which implies these tweets may have been more often self-promoting instead of addressed at others. 
 
 ```{r, fig.width=8, fig.height=8}
 data(stop_words)
@@ -147,7 +147,7 @@ word_frequencies %>%
 
 How do the top used bigrams compare between the two sources?
 
-> ANSWER:  
+> ANSWER:  The top used bigrams have some overlap between the two sources, but it appears that the top used Android bigrams include more names (Hillary Clinton, Bernie Sanders, Ted Cruz), including the insulting nicknames Trump used to disparage them (Crooked Hillary, Lyin Ted). While the iPhone tweets share some of the same top 10 bigrams, like "Crooked Hillary" and "Hillary Clinton" the occur with relatively less frequently and rank lower among the top ten most frequent for that source. More of the iPhone tweets seem to be directly referencing the campaign ("makeamericagreatagain 2016", "america trump2016", etc.) and not the people as directly. This could indicate that the Android source was used more often for tweets including such personal attacks compared to the iPhone which was used more often for standard campaign tweets. 
 
 ```{r}
 
@@ -171,14 +171,16 @@ iphone <- tweetBigrams %>%
   slice(1:10)
 
 joined <- android %>%
-  full_join(iphone)
+  bind_rows(iphone)
 
 joined %>%
   ggplot(aes(x = reorder(word,n), y = n, color = word, fill=word)) +
   geom_col(show.legend = FALSE) +
   xlab(NULL) +
   coord_flip() +
-  facet_wrap(~source, scales = "free_y")
+  facet_wrap(~source, scales = "free_y") +
+  labs(x= "Frequency", y = "Bigram") +
+  ggtitle("Frequency of Bigrams Used, Faceted by Source")
 
 
 
@@ -188,9 +190,42 @@ joined %>%
 \newpage
 2c. Consider the sentiment.  Compute the proportion of words among the tweets within each source classified as "angry" and the proportion of words classified as "joy"  based on the NRC lexicon.  How does the proportion of "angry" and "joy" words compare between the two sources?  What about "positive" and "negative" words?  
 
-> ANSWER: 
+> ANSWER: The ratio of words classified with the sentiment "anger" in the NRC lexicon to those classified with "joy" is 1.36 (363/267) for the Android and for iPhone it is 1.08 (170/163). This implies that the words used in Trump's tweets from the Android were relatively more angry than those sent from the iPhone, as the words are classified by the NRC lexicon. We see a similar relationship when looking at words classified as "positive" and "negative", as the ratio for such words for the Android is 0.88 (647/734)  and 0.63 (262/419) for the iPhone. Given both of these results, Trump seems to be negative more frequently in the tweets from the Android, but still makes tweets with negative or angry words from both sources.  
+
 
 ```{r}
+nrc_lexicon <- get_sentiments("nrc")
+
+tweetSentiments <- word_frequencies %>%
+  inner_join(nrc_lexicon, by = "word") %>%
+  filter(sentiment == "anger" | sentiment == "joy") %>%
+  group_by(sentiment, source) %>%
+  summarize(totalfreq = sum(frequency), source = source) %>%
+  unique()
+
+head(tweetSentiments)
+
+proportionAnroid <- 363/267
+proportionIphone <- 170/163
+
+proportionAnroid
+proportionIphone
+  
+
+tweetSentiments2 <- word_frequencies %>%
+  inner_join(nrc_lexicon, by = "word") %>%
+  filter(sentiment == "positive" | sentiment == "negative") %>%
+  group_by(sentiment, source) %>%
+  summarize(totalfreq = sum(frequency), source = source) %>%
+  unique()
+
+head(tweetSentiments2)
+
+proportionAnroid2 <- 647/734
+proportionIphone2 <- 262/419
+
+proportionAnroid2
+proportionIphone2
 
 
 ```
@@ -199,5 +234,5 @@ joined %>%
 \newpage
 2d. Lastly, based on your responses above, do you think there is evidence to support Robinson's claim that Trump only writes the (angrier) Android half of the tweets from realDonaldTrump?  In 2-4 sentences, please explain.
 
-> ANSWER: 
+> ANSWER: Based on the data and responses above, I do believe it is fair to say that Trump may have been negative more often in his Android tweets, but this does not mean that the tweets from the iPhone were exlcusively positive. In part (c), we see that the proportion of negative words used to positive words used are 0.88 for the Android and 0.63 for the iPhone. Though this indicates negative words were used more frequently on the Android, it still remains that a significant portion of the words in the iPhone tweets were also negative. Further, in the analysis of the bigrams we saw the top Android bigrams more centered around people, with "Crooked Hillary" being the number one occuring bigram. This does indicate that Trump may have sent more angry and personal attacks from the Android, however, "Crooked Hillary" was also among the most popular bigrams sent from the iPhone, which would indicate he sent such attacks from both sources. So overall, I would agree partially with Robinson's claim that Trump's tweets from the Android were angrier, but his tweets from the iPhone were also angry, just less so.
 
