@@ -188,10 +188,34 @@ Reproduce the map you created for Lab08-spatial (and finish it if you didn't in 
 
 NOTE: you do NOT need to say what colors are representing what feature (e.g, NOT:  "In this map, I've colored the countries by GDP, with green representing low values and red representing high values") -- this is obvious to the viewer, assuming there's an appropriate legend and title.  Rather, what *information* do you extract from the visualization? (e.g., "From the choropleth below, we can see that the percent change in GDP per capita  between 1957-2007 varies greatly across countries in Central America.  In particular, Panama and Costa Rica stand out as having GDPs per capita that increased by over 200% across those 50 years.  In contrast, Nicaragua's GDP per capita decreased by a small percentage during that same time span.")
 
-> ANSWER:  
+> ANSWER:  In our visualization we see life expectancy range from around 40 years to over 80 years, varying across different parts of the globe. Notably, we see many of the lower life expectancies in countries in Sub-Saharan Africa (ranging from around 40-50 years), wheras the higher life expectancies correlate with countries in western Europe and Scandanavia (ranging from around 70-80 years). These results seem to correspond highly with economic output of these countries, as the western European countries tend to be more developed with higher yearly GDPs compared to the countries in Sub-Saharan Africa.
 
 ```{r}
+library(gapminder)
+gapminder <- gapminder::gapminder
 
+expec2007 <- gapminder %>%
+  filter(year == 2007) %>%
+  select(country, lifeExp)
+
+worldMapExp <- world_map %>%
+  janitor::clean_names()
+
+
+expec2007 <- expec2007 %>%
+ right_join(worldMapExp, by = c("country" = "region"))
+  
+
+ggplot(expec2007, aes(x = long, y = lat, fill = lifeExp, group = group)) +
+  geom_polygon(color = "white") +
+  theme_void() +
+  coord_fixed(ratio = 1.3) +
+  ggtitle("Life Expectancy by Country in 2007") +
+  labs(fill = "Life Expectancy (Years)")
+
+
+
+  
 ```
 
 \newpage
@@ -203,10 +227,38 @@ Note: While I recommend using one of the datasets provided in the lab so you don
 
 Describe one challenge you encountered (if any) while creating this map.
 
-> ANSWER: 
+> ANSWER: In this plot we see lower unemployment rates for California in the year 2003 around the coast and the eastern border, while higher rates are seen in the middle of the state as well as in the north. This is sensical as in California the major metropolitan areas are on the caost (San Francisco and LA) or on the border with Nevada (Lake Tahoe and Reno). The north and the center of the state are rural areas and thus are more likely to have less employment opportunities which results in the higher unemployment rates. I did not really have any challenges creating this new map as my old map helped inform how I structured this one.
 
 ```{r}
 
+county_employment <- readxl::read_excel(paste0(path_in, "/Unemployment.xls")
+                                       , sheet = 1
+                                       , skip = 7) %>%
+janitor::clean_names()
+
+ca_counties <- map_data(map = "county"
+                        , region = "california")
+
+ca_employment <- county_employment %>%
+  filter(stabr == "CA") %>%
+  filter(area_name != "California") %>%
+  separate(area_name, sep = " County, ", into = c("County", "state")) %>%
+  mutate(county = tolower(County)) %>%
+  select(fip_stxt, stabr, county, unemployment_rate_2003) %>%
+  rename(subregion = county) 
+
+ca_emp_map <- ca_counties %>%
+  left_join(ca_employment, by = "subregion")
+
+ca_emp_map
+
+ggplot(ca_emp_map, aes(x = long, y = lat, fill = unemployment_rate_2003, group = group)) +
+  geom_polygon(color = "white") +
+  theme_void() +
+  coord_fixed(ratio = 1.3) +
+  labs(fill = "Unemployment Rate, 2003") +
+  theme(legend.position ="bottom") +
+  scale_fill_viridis(option = "plasma", direction = -1)
 
 ```
 
